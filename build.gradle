@@ -1,0 +1,32 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.7
+
+repositories {
+	mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'org.testng:testng:6.9.10'
+}
+
+test {
+	useTestNG()
+	finalizedBy jacocoTestReport
+}
+
+jacoco {
+    toolVersion = "0.7.6.201602180812"
+}
+
+task copyReports(type: Copy) {
+    from 'build/reports/'
+    into 'reports/'
+}
+
+jacocoTestReport {
+	finalizedBy copyReports
+}
